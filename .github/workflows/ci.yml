@@ -16,7 +16,13 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: whoami
+        script: |
+          whoami
+          mysqldump -q -u ${{ secrets.MYSQL_USER }} -p'${{ secrets.MYSQL_PASS }}' world | gzip -9 > 'mysql-world.sql.gz'
+          
+    - name: rsync the db
+      shell: bash
+      run: rsync --remove-source-files -avzhe ssh --progress ${{ secrets.USERNAME }}@${{ secrets.HOST }}:./mysql* ./backup/
 
 #     - name: executing remote ssh commands using ssh key
 #       uses: ./
@@ -89,6 +95,7 @@ jobs:
 #         script: |
 #           whoami
 #           ls -al
+    
     - name: use insecure cipher
       uses: ./
       with:
