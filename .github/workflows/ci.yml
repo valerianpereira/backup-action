@@ -19,10 +19,11 @@ jobs:
         script: |
           whoami
           mysqldump -q -u ${{ secrets.MYSQL_USER }} -p'${{ secrets.MYSQL_PASS }}' world | gzip -9 > 'mysql-world.sql.gz'
+          ls -lha
           
     - name: rsync the db
       shell: bash
-      run: rsync --remove-source-files -avzhe ssh --progress ${{ secrets.USERNAME }}@${{ secrets.HOST }}:./mysql* ./backup/
+      run: rsync --remove-source-files -avzhe ssh -o StrictHostKeyChecking=no --progress ${{ secrets.USERNAME }}@${{ secrets.HOST }}:./mysql* ./backup/
 
 #     - name: executing remote ssh commands using ssh key
 #       uses: ./
