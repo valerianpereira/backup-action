@@ -29,9 +29,18 @@ echo $INPUT_DEPLOY_KEY > ~/.ssh/deploy_key
 chmod 600 ~/.ssh/deploy_key
 echo "Done!!"
 
+#-----------------------------
+# CREATE DESTINATION DIR IF NOT EXISTS
+#-----------------------------
+if [ ! -d ./$INPUT_DB_NAME/ ]
+then
+    mkdir $INPUT_DB_NAME
+fi
+
 # Rsync the backup files to container
 echo "Sync the backups..."
 echo "Run command: rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 22' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./backup/"
-sh -c "rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./backup/"
+sh -c "rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./$INPUT_DB_NAME/"
 
-sh -c "ls -la"
+echo "Show me backups..."
+ls -la && ls -l ./$INPUT_DB_NAME/
