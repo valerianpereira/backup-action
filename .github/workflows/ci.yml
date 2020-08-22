@@ -23,7 +23,15 @@ jobs:
           
     - name: rsync the db
       shell: bash
-      run: rsync --remove-source-files -avzhe 'ssh -o StrictHostKeyChecking=no' --progress ${{ secrets.USERNAME }}@${{ secrets.HOST }}:./mysql* ./backup/
+      run: |
+        echo $HOME
+        SSHPATH="$HOME/.ssh"
+        mkdir -p "$SSHPATH"
+        echo "${{ secrets.DEPLOY_KEY }}" > "$SSHPATH/key"
+        chmod 600 "$SSHPATH/key"
+        rsync --remove-source-files -avzhe 'ssh -i $SSHPATH/key -o StrictHostKeyChecking=no -p 22' --progress ${{ secrets.USERNAME }}@${{ secrets.HOST }}:./mysql* ./backup/
+        ls -l
+        ls -l backup/
 
 #     - name: executing remote ssh commands using ssh key
 #       uses: ./
