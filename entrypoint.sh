@@ -52,8 +52,10 @@ ls -la && ls -l ./$INPUT_DB_NAME/
 
 echo "Create a branch & Raise PR"
 git switch -c backup-action-files
-git config user.name 'Github'
-git config user.email 'github@users.noreply.github.com'
 git add $INPUT_DB_NAME/
-git commit -m "Add backup files"
-git push origin backup-action-files
+
+git -c user.name="valerianpereira" -c user.email="valerianpereira25@gmail.com" \
+    commit -m "Add backup files" \
+    --author="Valerian Pereira <valerianpereira25@gmail.com>"
+
+git push --set-upstream origin backup-action-files
