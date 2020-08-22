@@ -68,6 +68,16 @@ inputs:
   debug:
     description: 'enable debug mode'
     default: false
+  type:
+    description: 'type of backup to be triggered'
+  db_type:
+    description: 'type of database'
+  db_user:
+    description: 'database username'
+  db_pass:
+    description: 'database password'
+  db_name: world
+    description: 'database name'
 runs:
   using: 'docker'
   image: 'Dockerfile'

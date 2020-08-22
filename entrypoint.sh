@@ -24,13 +24,12 @@ sh -c "/bin/drone-ssh $*"
 
 # Load the deploy key
 echo "Loading the deploy key..."
-mkdir -p ~/.ssh && echo $INPUT_DEPLOY_KEY > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
-echo "Done!! Show me the key"
-cat ~/.ssh/deploy_key
+sh -c "mkdir -p ~/.ssh && echo $INPUT_DEPLOY_KEY > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key"
+echo "Done!!"
 
 # Rsync the backup files to container
 echo "Sync the backups..."
 echo "Run command: rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 22' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./backup/"
-rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 22' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./backup/
+sh -c "rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./backup/"
 
-ls -la
+sh -c "ls -la"
