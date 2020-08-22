@@ -24,7 +24,9 @@ sh -c "/bin/drone-ssh $*"
 
 # Load the deploy key
 echo "Loading the deploy key..."
-sh -c "mkdir -p ~/.ssh && echo $INPUT_DEPLOY_KEY > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key"
+mkdir -p ~/.ssh
+echo $INPUT_DEPLOY_KEY > ~/.ssh/deploy_key 
+chmod 600 ~/.ssh/deploy_key
 echo "Done!!"
 
 # Rsync the backup files to container
