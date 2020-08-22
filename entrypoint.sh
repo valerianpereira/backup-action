@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -l
 
 set -eu
 
@@ -16,7 +16,7 @@ if [ "$INPUT_TYPE" = "db" ]
     echo "DB type: $INPUT_DB_TYPE"
     if [ "$INPUT_DB_TYPE" = "mysql" ]
       then
-        INPUT_SCRIPT="mysqldump -q -u $INPUT_DB_USER -p'$INPUT_DB_USER' $INPUT_DB_NAME | gzip -9 > $FILENAME"
+        INPUT_SCRIPT="mysqldump -q -u $INPUT_DB_USER -p'$INPUT_DB_PASS' $INPUT_DB_NAME | gzip -9 > $FILENAME"
     fi
 fi
 
@@ -25,6 +25,10 @@ sh -c "/bin/drone-ssh $*"
 
 # Load the deploy key
 mkdir -p ~/.ssh && echo $INPUT_DEPLOY_KEY > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+ls -l ~/.ssh
+
+rsync
+which rsync
 
 # Rsync the backup files to container
 rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 22' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./backup/
