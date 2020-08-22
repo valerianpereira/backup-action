@@ -76,7 +76,7 @@ inputs:
     description: 'database username'
   db_pass:
     description: 'database password'
-  db_name: world
+  db_name:
     description: 'database name'
 runs:
   using: 'docker'
