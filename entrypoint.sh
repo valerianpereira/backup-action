@@ -37,9 +37,12 @@ then
     mkdir $INPUT_DB_NAME
 fi
 
+echo "Show me destination dir.."
+ls -la
+
 # Rsync the backup files to container
 echo "Sync the backups..."
-echo "Run command: rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 22' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./backup/"
+echo "Run command: rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 22' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./$INPUT_DB_NAME/"
 sh -c "rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./$INPUT_DB_NAME/"
 
 echo "Show me backups..."
