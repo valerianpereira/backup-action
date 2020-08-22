@@ -6,8 +6,10 @@ export GITHUB="true"
 
 THEDATE=`date +%d%m%y%H%M`
 
+printenv
+
 # Check what to be back up
-echo "Backup type: $type"
+echo "Backup type: $INPUT_TYPE"
 if [ "$INPUT_TYPE" = "db" ]
   then
     FILENAME=mysql-$INPUT_DB_NAME.$THEDATE.sql.gz
