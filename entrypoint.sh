@@ -49,3 +49,11 @@ sh -c "rsync --remove-source-files -avzhe 'ssh -i $HOME/.ssh/deploykey -o Strict
 
 echo "Show me backups..."
 ls -la && ls -l ./$INPUT_DB_NAME/
+
+echo "Create a branch & Raise PR"
+git switch -c backup-action-files
+git config user.name 'Github'
+git config user.email 'github@users.noreply.github.com'
+git add $INPUT_DB_NAME/
+git commit -m "Add backup files"
+git push origin backup-action-files
