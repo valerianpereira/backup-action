@@ -8,12 +8,12 @@ THEDATE=`date +%d%m%y%H%M`
 
 # Check what to be back up
 echo "Backup type: $type"
-if [ "$TYPE" = "db" ]
+if [ "$INPUT_TYPE" = "db" ]
   then
-    FILENAME=mysql-$DB_NAME.$THEDATE.sql.gz
-    if [ "$DB_TYPE" = "mysql" ]
+    FILENAME=mysql-$INPUT_DB_NAME.$THEDATE.sql.gz
+    if [ "$INPUT_DB_TYPE" = "mysql" ]
       then
-        SCRIPT="mysqldump -q -u $DB_USER -p'$DB_USER' $DB_NAME | gzip -9 > $FILENAME"
+        SCRIPT="mysqldump -q -u $INPUT_DB_USER -p'$INPUT_DB_USER' $INPUT_DB_NAME | gzip -9 > $FILENAME"
     fi
 fi
 
@@ -21,9 +21,9 @@ fi
 sh -c "/bin/drone-ssh $*" 
 
 # Load the deploy key
-mkdir -p ~/.ssh && echo $DEPLOY_KEY > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+mkdir -p ~/.ssh && echo $INPUT_DEPLOY_KEY > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
 
 # Rsync the backup files to container
-rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 22' --progress $USERNAME@$HOST:./mysql* ./backup/
+rsync --remove-source-files -avzhe 'ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p 22' --progress $INPUT_USERNAME@$INPUT_HOST:./mysql* ./backup/
 
 ls -lha
