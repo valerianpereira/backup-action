@@ -68,6 +68,8 @@ inputs:
   debug:
     description: 'enable debug mode'
     default: false
+  deploy_key:
+    description: 'key to make login to ssh'
   type:
     description: 'type of backup to be triggered'
   db_type:

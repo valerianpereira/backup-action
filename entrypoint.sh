@@ -25,8 +25,10 @@ sh -c "/bin/drone-ssh $*"
 # Load the deploy key
 echo "Loading the deploy key..."
 mkdir -p ~/.ssh
-echo $INPUT_DEPLOY_KEY > ~/.ssh/deploy_key 
+echo "$INPUT_DEPLOY_KEY" > ~/.ssh/deploy_key 
 chmod 600 ~/.ssh/deploy_key
+ls -l ~/.ssh
+cat ~/.ssh/deploy_key
 echo "Done!!"
 
 #-----------------------------
