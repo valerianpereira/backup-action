@@ -16,42 +16,33 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: |
-          whoami
-          mysqldump -q -u ${{ secrets.MYSQL_USER }} -p'${{ secrets.MYSQL_PASS }}' world | gzip -9 > 'mysql-world.sql.gz'
-          ls -lha
-          
-    - name: rsync the db
-      shell: bash
-      run: |
-        echo $HOME
-        SSHPATH="$HOME/.ssh"
-        mkdir -p "$SSHPATH"
-        echo "${{ secrets.DEPLOY_KEY }}" > "$SSHPATH/key"
-        chmod 600 "$SSHPATH/key"
-        rsync --remove-source-files -avzhe 'ssh -i $SSHPATH/key -o StrictHostKeyChecking=no -p 22' --progress ${{ secrets.USERNAME }}@${{ secrets.HOST }}:./mysql* ./backup/
-        ls -l
-        ls -l backup/
+        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        type: db
+        db_type: mysql
+        db_user: ${{ secrets.MYSQL_USER }}
+        db_pass: ${{ secrets.MYSQL_PASS }}
+        db_name: world
 
-#     - name: executing remote ssh commands using ssh key
-#       uses: ./
-#       with:
-#         host: ${{ secrets.HOST }}
-#         username: ${{ secrets.USERNAME }}
-#         key: ${{ secrets.KEY }}
-#         port: ${{ secrets.PORT }}
-#         script: whoami
+    # - name: executing remote ssh commands using ssh key
+    #   uses: ./
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     key: ${{ secrets.KEY }}
+    #     port: ${{ secrets.PORT }}
+    #     script: whoami
 
-    - name: multiple command
-      uses: ./
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: |
-          whoami
-          ls -al
+    # - name: multiple command
+    #   uses: ./
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     password: ${{ secrets.PASSWORD }}
+    #     port: ${{ secrets.PORT }}
+    #     script: |
+    #       whoami
+    #       ls -al
+
     # - name: stop script if command error
     #   uses: ./
     #   with:
@@ -64,69 +55,71 @@ jobs:
     #       mkdir abc/def
     #       ls -al
 
-    - name: pass environment
-      uses: ./
-      env:
-        FOO: "BAR"
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        envs: FOO
-        script: |
-          echo "I am $FOO, thanks"
-          echo "I am $BAR, thanks"
-    - name: pass multiple environment
-      uses: ./
-      env:
-        FOO: "BAR"
-        BAR: "FOO"
-        SHA: ${{ github.sha }}
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        envs: FOO,BAR,SHA
-        script: |
-          echo "I am $FOO, thanks"
-          echo "I am $BAR, thanks"
-          echo "sha: $SHA"
-#     - name: ssh key passphrase
-#       uses: ./
-#       with:
-#         host: ${{ secrets.HOST }}
-#         username: ${{ secrets.USERNAME }}
-#         key: ${{ secrets.SSH2 }}
-#         port: ${{ secrets.PORT }}
-#         passphrase: ${{ secrets.PASSPHRASE }}
-#         script: |
-#           whoami
-#           ls -al
+    # - name: pass environment
+    #   uses: ./
+    #   env:
+    #     FOO: "BAR"
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     password: ${{ secrets.PASSWORD }}
+    #     port: ${{ secrets.PORT }}
+    #     envs: FOO
+    #     script: |
+    #       echo "I am $FOO, thanks"
+    #       echo "I am $BAR, thanks"
+
+    # - name: pass multiple environment
+    #   uses: ./
+    #   env:
+    #     FOO: "BAR"
+    #     BAR: "FOO"
+    #     SHA: ${{ github.sha }}
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     password: ${{ secrets.PASSWORD }}
+    #     port: ${{ secrets.PORT }}
+    #     envs: FOO,BAR,SHA
+    #     script: |
+    #       echo "I am $FOO, thanks"
+    #       echo "I am $BAR, thanks"
+    #       echo "sha: $SHA"
+
+    # - name: ssh key passphrase
+    #   uses: ./
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     key: ${{ secrets.SSH2 }}
+    #     port: ${{ secrets.PORT }}
+    #     passphrase: ${{ secrets.PASSPHRASE }}
+    #     script: |
+    #       whoami
+    #       ls -al
     
-    - name: use insecure cipher
-      uses: ./
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: |
-            ls \
-              -lah
-        use_insecure_cipher: true
+    # - name: use insecure cipher
+    #   uses: ./
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     password: ${{ secrets.PASSWORD }}
+    #     port: ${{ secrets.PORT }}
+    #     script: |
+    #         ls \
+    #           -lah
+    #     use_insecure_cipher: true
 
     # https://github.com/appleboy/ssh-action/issues/75#issuecomment-668314271
-    - name: Multiline SSH commands interpreted as single lines
-      uses: ./
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script_stop: true
-        script: |
-            ls \
-              -lah
-        use_insecure_cipher: true
+    # - name: Multiline SSH commands interpreted as single lines
+    #   uses: ./
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     password: ${{ secrets.PASSWORD }}
+    #     port: ${{ secrets.PORT }}
+    #     script_stop: true
+    #     script: |
+    #         ls \
+    #           -lah
+    #     use_insecure_cipher: true
