@@ -3,8 +3,8 @@ FROM appleboy/drone-ssh:1.6.2-linux-amd64
 
 # Install rsync
 RUN apk --update add --no-cache rsync openssh-client git dpkg hub \
-	&& apk add hub --repository=http://dl-cdn.alpinelinux.org/alpine/v3.3/community
-	&& rm -rf /var/cache/apk/* \
+	&& apk add hub --repository=http://dl-cdn.alpinelinux.org/alpine/v3.3/community \
+	&& rm -rf /var/cache/apk/*
 
 RUN hub version
 
