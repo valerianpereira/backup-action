@@ -1,7 +1,11 @@
-name: remote ssh command
-on: [push]
-jobs:
+name: Backup Action Test
 
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -9,7 +13,7 @@ jobs:
     - name: checkout
       uses: actions/checkout@v1
 
-    - name: executing remote ssh commands using password
+    - name: Backup MySQL DB
       uses: ./
       with:
         host: ${{ secrets.HOST }}
@@ -21,6 +25,23 @@ jobs:
         db_type: mysql
         db_user: ${{ secrets.MYSQL_USER }}
         db_pass: ${{ secrets.MYSQL_PASS }}
+        db_port: 3306
+        db_name: world
+
+    - name: Backup Mongo DB
+      uses: ./
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }} # Defaults to root
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        type: db
+        db_type: mongo
+        db_user: webgeeksAdmin
+        db_pass: DD9e3H9Gp?X#nZNA
+        db_port: 27017
+        # auth_db: ${{ secrets.authenticationDatabase }} # Required for Mongo DB v4.4.0 - Defaults to admin
         db_name: world
 
     # - name: executing remote ssh commands using ssh key
