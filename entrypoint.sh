@@ -6,7 +6,7 @@ set -eu
 export GITHUB="true"
 
 THEDATE=`date +%d%m%y%H%M`
-BACKUP_DIR=`backups`
+BACKUP_DIR="backups"
 
 # Check what to be back up
 echo "Backup type: $INPUT_TYPE"
