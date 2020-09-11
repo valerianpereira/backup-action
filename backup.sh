@@ -9,7 +9,7 @@ THEDATE=`date +%d%m%y%H%M`
 BACKUP_DIR="backups"
 
 # Check what to be back up
-echo "🗃️Backup type: $INPUT_TYPE"
+echo "🗃️ Backup type: $INPUT_TYPE"
 if [ "$INPUT_TYPE" = "db" ]
   then
     echo "DB type: $INPUT_DB_TYPE"
@@ -47,11 +47,11 @@ if [ "$INPUT_TYPE" = "directory" ]
 fi
 
 # Execute SSH Commands to create backups first
-echo "🏃‍♂️Running commands over ssh..."
+echo "🏃‍♂️ Running commands over ssh..."
 sh -c "/bin/drone-ssh $*"
 
 # Load the deploy key
-echo "🔑Loading the deploy key..."
+echo "🔑 Loading the deploy key..."
 mkdir -p $HOME/.ssh
 echo "$INPUT_DEPLOY_KEY" > $HOME/.ssh/deploykey 
 chmod 600 $HOME/.ssh/deploykey
@@ -66,9 +66,12 @@ if [ ! -d ./$BACKUP_DIR/ ]
 fi
 
 # Rsync the backup files to container
-echo "🔄Sync the $INPUT_DB_TYPE backups... 🗄"
+echo "🔄 Sync the $INPUT_DB_TYPE backups... 🗄"
 sh -c "rsync --remove-source-files -avzhe 'ssh -i $HOME/.ssh/deploykey -o StrictHostKeyChecking=no' --progress $INPUT_USERNAME@$INPUT_HOST:./$INPUT_DB_TYPE* ./$BACKUP_DIR/"
 
-echo "🔍Show me backups..."
-ls -l ./$BACKUP_DIR/
+echo "🔍 Show me location of backups... 🙏"
+pwd
+
+echo "🔍 Show me backups... 😎"
+ls -lFhS ./$BACKUP_DIR/
 
