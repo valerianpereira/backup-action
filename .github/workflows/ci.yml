@@ -44,6 +44,32 @@ jobs:
         # auth_db: ${{ secrets.authenticationDatabase }} # Required for Mongo DB v4.4.0 - Defaults to admin
         db_name: world
 
+    - name: Backup Postgres DB
+      uses: ./
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }} # Defaults to root
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        type: db
+        db_type: postgres
+        db_user: webgeeks
+        db_pass: awkswBPByT258c3
+        db_port: 5432 # Defaults to 5432
+        db_name: world
+
+    - name: Backup Directory
+      uses: ./
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }} # Defaults to root
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        type: directory
+        dirpath: /var/www/html
+
     # - name: executing remote ssh commands using ssh key
     #   uses: ./
     #   with:

@@ -1,6 +1,7 @@
-name: 'SSH Remote Commands'
-description: 'Executing remote ssh commands'
-author: 'Bo-Yi Wu'
+name: 'Backup Action'
+description: 'Easy backup of the Database or Directory'
+author: 'Valerian Pereira'
+
 inputs:
   host:
     description: 'ssh host'
@@ -71,7 +72,7 @@ inputs:
   deploy_key:
     description: 'key to make login to ssh'
   type:
-    description: 'type of backup to be triggered'
+    description: 'type of backup to be triggered (directory or db)'
   db_type:
     description: 'type of database'
   db_user:
@@ -80,10 +81,19 @@ inputs:
     description: 'database password'
   db_name:
     description: 'database name'
+  db_host:
+    description: 'database host'
+  db_port:
+    description: 'database port'
+  auth_db:
+    description: 'authenticationDatabase Required for Mongo DB v4.4.0 - Defaults to admin'
+  dirpath:
+    description: 'directory to be backuped'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
 
 branding:
-  icon: 'terminal'
+  icon: 'archive'
   color: 'gray-dark'
