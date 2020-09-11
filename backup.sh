@@ -42,7 +42,7 @@ if [ "$INPUT_TYPE" = "directory" ]
   then
     SLUG=$(echo $INPUT_DIRPATH | sed -r 's/[~\^]+//g' | sed -r 's/[^a-zA-Z0-9]+/-/g' | sed -r 's/^-+\|-+$//g' | tr A-Z a-z)
     FILENAME=$INPUT_TYPE-$SLUG.$THEDATE.tar.gz
-    INPUT_SCRIPT="tar -cvzf $INPUT_DIRPATH $FILENAME"
+    INPUT_SCRIPT="tar -cvzf $FILENAME $INPUT_DIRPATH"
     INPUT_DB_TYPE="directory" # Hack!! to survive from writing extra lines of code
 fi
 
