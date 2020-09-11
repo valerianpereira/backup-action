@@ -27,6 +27,15 @@ if [ "$INPUT_TYPE" = "db" ]
         INPUT_AUTH_DB="${INPUT_AUTH_DB:-admin}"
         INPUT_SCRIPT="mongodump --port=$INPUT_DB_PORT -d $INPUT_DB_NAME -u $INPUT_DB_USER -p='$INPUT_DB_PASS' --authenticationDatabase=$INPUT_AUTH_DB --gzip -o backmon && tar -cvzf $FILENAME backmon/$INPUT_DB_NAME"
     fi
+
+    if [ "$INPUT_DB_TYPE" = "postgres" ]
+      then
+        FILENAME=postgres-$INPUT_DB_NAME.$THEDATE.pgsql.gz
+        INPUT_DB_HOST="${INPUT_DB_HOST:-localhost}"
+        INPUT_DB_PORT="${INPUT_DB_PORT:-5432}"
+        INPUT_EXTRA_ARGS="${INPUT_EXTRA_ARGS:--C --column-inserts}"
+        INPUT_SCRIPT="PGPASSWORD='$INPUT_DB_PASS' pg_dump -U $INPUT_DB_USER -h $INPUT_DB_HOST $INPUT_EXTRA_ARGS $INPUT_DB_NAME | gzip -9 > $FILENAME"
+    fi
 fi
 
 # Execute SSH Commands to create backups first
