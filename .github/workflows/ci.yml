@@ -59,6 +59,17 @@ jobs:
         db_port: 5432 # Defaults to 5432
         db_name: world
 
+    - name: Backup Directory
+      uses: ./
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }} # Defaults to root
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        type: directory
+        dirpath: /var/www/html
+
     # - name: executing remote ssh commands using ssh key
     #   uses: ./
     #   with:
