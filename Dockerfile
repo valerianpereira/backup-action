@@ -6,3 +6,4 @@ RUN apk --update add --no-cache rsync openssh-client git dpkg && rm -rf /var/cac
 
 ADD backup.sh /backup.sh
 RUN chmod +x /backup.sh
+ENTRYPOINT ["/backup.sh"]
