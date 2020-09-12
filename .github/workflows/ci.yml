@@ -59,7 +59,7 @@ jobs:
         db_port: 5432 # Defaults to 5432
         db_name: world
 
-    - name: [SSH Password Login] Backup Directory
+    - name: SSH Password - Login Backup Directory
       uses: ./
       with:
         host: ${{ secrets.HOST }}
@@ -70,7 +70,7 @@ jobs:
         type: directory
         dirpath: /var/www/html
     
-    - name: [SSH Key Login] Backup a Directory + Additional Commands to run Simultaneously
+    - name: SSH Key Login - Backup a Directory + Additional Commands to run Simultaneously
       uses: ./
       with:
         host: ${{ secrets.HOST }}
