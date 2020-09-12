@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Backup MySQL DB
       uses: ./
@@ -20,7 +20,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        key: ${{ secrets.DEPLOY_KEY }}
         type: db
         db_type: mysql
         db_user: ${{ secrets.MYSQL_USER }}
@@ -35,7 +35,7 @@ jobs:
         username: ${{ secrets.USERNAME }} # Defaults to root
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        key: ${{ secrets.DEPLOY_KEY }}
         type: db
         db_type: mongo
         db_user: webgeeksAdmin
@@ -51,7 +51,7 @@ jobs:
         username: ${{ secrets.USERNAME }} # Defaults to root
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        key: ${{ secrets.DEPLOY_KEY }}
         type: db
         db_type: postgres
         db_user: webgeeks
@@ -59,114 +59,37 @@ jobs:
         db_port: 5432 # Defaults to 5432
         db_name: world
 
-    - name: Backup Directory
+    - name: [SSH Password Login] Backup Directory
       uses: ./
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }} # Defaults to root
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        key: ${{ secrets.DEPLOY_KEY }}
         type: directory
         dirpath: /var/www/html
-
-    # - name: executing remote ssh commands using ssh key
-    #   uses: ./
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     key: ${{ secrets.KEY }}
-    #     port: ${{ secrets.PORT }}
-    #     script: whoami
-
-    # - name: multiple command
-    #   uses: ./
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     password: ${{ secrets.PASSWORD }}
-    #     port: ${{ secrets.PORT }}
-    #     script: |
-    #       whoami
-    #       ls -al
-
-    # - name: stop script if command error
-    #   uses: ./
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     key: ${{ secrets.KEY }}
-    #     port: ${{ secrets.PORT }}
-    #     script_stop: true
-    #     script: |
-    #       mkdir abc/def
-    #       ls -al
-
-    # - name: pass environment
-    #   uses: ./
-    #   env:
-    #     FOO: "BAR"
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     password: ${{ secrets.PASSWORD }}
-    #     port: ${{ secrets.PORT }}
-    #     envs: FOO
-    #     script: |
-    #       echo "I am $FOO, thanks"
-    #       echo "I am $BAR, thanks"
-
-    # - name: pass multiple environment
-    #   uses: ./
-    #   env:
-    #     FOO: "BAR"
-    #     BAR: "FOO"
-    #     SHA: ${{ github.sha }}
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     password: ${{ secrets.PASSWORD }}
-    #     port: ${{ secrets.PORT }}
-    #     envs: FOO,BAR,SHA
-    #     script: |
-    #       echo "I am $FOO, thanks"
-    #       echo "I am $BAR, thanks"
-    #       echo "sha: $SHA"
-
-    # - name: ssh key passphrase
-    #   uses: ./
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     key: ${{ secrets.SSH2 }}
-    #     port: ${{ secrets.PORT }}
-    #     passphrase: ${{ secrets.PASSPHRASE }}
-    #     script: |
-    #       whoami
-    #       ls -al
     
-    # - name: use insecure cipher
-    #   uses: ./
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     password: ${{ secrets.PASSWORD }}
-    #     port: ${{ secrets.PORT }}
-    #     script: |
-    #         ls \
-    #           -lah
-    #     use_insecure_cipher: true
+    - name: [SSH Key Login] Backup a Directory + Additional Commands to run Simultaneously
+      uses: ./
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.DEPLOY_KEY }}
+        type: directory
+        dirpath: /var/www/html
+        script: |
+          whoami
+          ls -al
 
-    # https://github.com/appleboy/ssh-action/issues/75#issuecomment-668314271
-    # - name: Multiline SSH commands interpreted as single lines
-    #   uses: ./
-    #   with:
-    #     host: ${{ secrets.HOST }}
-    #     username: ${{ secrets.USERNAME }}
-    #     password: ${{ secrets.PASSWORD }}
-    #     port: ${{ secrets.PORT }}
-    #     script_stop: true
-    #     script: |
-    #         ls \
-    #           -lah
-    #     use_insecure_cipher: true
+    - name: Simply Run SSH Commands to Remote Server
+      uses: ./
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.DEPLOY_KEY }}
+        script: |
+          whoami
+          ls -al
