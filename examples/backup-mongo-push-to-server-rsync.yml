@@ -1,0 +1,47 @@
+name: Backup Directory & Push to Another Server via Rsync Method
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Every Day at Midnight
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    
+    - name: Backup Mongo DB
+      uses: valerianpereira/backup-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }} # Defaults to root
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.DEPLOY_KEY }}
+        type: db
+        db_type: mongo
+        db_user: ${{ secrets.DB_USER }}
+        db_pass: ${{ secrets.DB_PASS }}
+        db_port: 27017
+        # auth_db: ${{ secrets.authenticationDatabase }} # Required for Mongo DB v4.4.0 - Defaults to admin
+        db_name: ${{ secrets.DB_NAME }}
+
+    # This is just an example use case, not tested.
+    - name: Push backups to target server via Rsync
+      uses: up9cloud/action-rsync@v1.1
+      env:
+        # Required
+        HOST: ${{ secrets.TARGET_HOST }}
+        KEY: ${{ secrets.TARGET_KEY }} # ssh private key
+        TARGET: /target/dir/ # target folder or file
+
+        # Optional (with `default` values)
+        VERBOSE: false # set it true if you want some tips
+        USER: ${{ secrets.TARGET_USER }} # target server ssh user
+        PORT: 22 # target server ssh port
+        SSH_ARGS: '-p 22 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=quiet' # ssh arguments, if you set this, the PORT would be ignored.
+        SOURCE: /github/workspace/backups/ # source folder or file
+        PRE_SCRIPT: "" # pre script runs on target server, target server must support `mktemp` command
+        POST_SCRIPT: "" # post script runs on target server, target server must support `mktemp` command

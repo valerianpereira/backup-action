@@ -30,6 +30,7 @@ inputs:
     default: "10m"
   key:
     description: 'content of ssh private key. ex raw content of ~/.ssh/id_rsa'
+    required: true
   key_path:
     description: 'path of ssh private key'
   fingerprint:
@@ -69,10 +70,9 @@ inputs:
   debug:
     description: 'enable debug mode'
     default: false
-  deploy_key:
-    description: 'key to make login to ssh'
   type:
     description: 'type of backup to be triggered (directory or db)'
+    required: true
   db_type:
     description: 'type of database'
   db_user:
@@ -83,10 +83,13 @@ inputs:
     description: 'database name'
   db_host:
     description: 'database host'
+    default: 'localhost'
   db_port:
     description: 'database port'
   auth_db:
     description: 'authenticationDatabase Required for Mongo DB v4.4.0 - Defaults to admin'
+  args:
+    description: 'additional arguments with backup command if you want to pass'
   dirpath:
     description: 'directory to be backuped'
 
