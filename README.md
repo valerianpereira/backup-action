@@ -160,6 +160,10 @@ See the detail information about [SSH login without password](http://www.linuxpr
 - Pass DB Credentials with Read-only access to database.
 - Use it at your own risk! 🙏
 
+## Roadmap
+- [ ] Add Backup & Restore Commands Explanations to ReadME
+- [ ] Features to generate Backup Reports and Store it in txt file.
+
 ## Contributions
 If you've ever wanted to contribute to open source, and a great cause, now is your chance!
 
