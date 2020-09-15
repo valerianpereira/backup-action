@@ -63,7 +63,7 @@ if [ "$INPUT_TYPE" = "db" ]; then
     fi
 
     if [ "$INPUT_DB_TYPE" = "mongo" ]; then
-      FILENAME=$INPUT_DB_TYPE-$INPUT_DB_NAME.$THEDATE.gz
+      FILENAME=$INPUT_DB_TYPE-$INPUT_DB_NAME.$THEDATE.tgz
       INPUT_DB_PORT="${INPUT_DB_PORT:-27017}"
       INPUT_AUTH_DB="${INPUT_AUTH_DB:-admin}"
       INPUT_ARGS="${INPUT_ARGS} --gzip -o backmon"
