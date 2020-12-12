@@ -113,7 +113,7 @@ if [ ! -z "$INPUT_DB_TYPE" ] && [ "$INPUT_DB_TYPE" != "" ]; then
   fi
 
   echo "🔄 Sync the $INPUT_DB_TYPE backups... 🗄"
-  sh -c "rsync --remove-source-files -avzhe 'ssh -i $HOME/.ssh/deploykey -o StrictHostKeyChecking=no' --progress $INPUT_USERNAME@$INPUT_HOST:./$INPUT_DB_TYPE* ./$BACKUP_DIR/"
+  sh -c "rsync --remove-source-files -avzhe 'ssh -i $HOME/.ssh/deploykey -p $INPUT_PORT -o StrictHostKeyChecking=no' --progress $INPUT_USERNAME@$INPUT_HOST:./$INPUT_DB_TYPE* ./$BACKUP_DIR/"
 
   echo "🤔 Whats the location of backups..."
   CURR_DIR=$(pwd)
