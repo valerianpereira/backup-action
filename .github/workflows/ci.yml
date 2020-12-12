@@ -1,9 +1,6 @@
 name: Backup Action Test
 
-on:
-  pull_request:
-    branches:
-      - master
+on: pull_request_target
 
 jobs:
   build:
