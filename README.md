@@ -74,8 +74,8 @@ total 3M
 * [Backup & Push to S3](./examples/backup-postgres-push-to-s3.yml)
 * [Backup & Push to Server via Rsync](./examples/backup-mongo-push-to-server-rsync.yml)
 * [Backup & Push to Server via SCP](./examples/backup-mongo-push-to-server-scp.yml)
-* [Backup & Push to Artifacts](./examples/backup-mysql-push-to-email.yml)
-* [Backup & Push to Github](./examples/backup-postgres-push-to-s3.yml)
+* [Backup & Push to Artifacts](./examples/backup-mysql-push-to-artifacts.yml)
+* [Backup & Push to Github](./examples/backup-dir-push-to-github.yml)
 
 ### TIP: You can refer to [ci.yml](./.github/workflows/ci.yml) for more understanding.
 
