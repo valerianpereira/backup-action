@@ -17,8 +17,8 @@ EXTRA_SCRIPT=""
 if [ ! -z "$INPUT_KEY" ] && [ "$INPUT_KEY" != "" ]; then
   echo "🔑 Loading the ssh key..."
   mkdir -p $HOME/.ssh
-  echo "$INPUT_KEY" > $HOME/.ssh/deploykey 
-  chmod 600 $HOME/.ssh/deploykey
+  echo "$INPUT_KEY" > $HOME/.ssh/deploykey
+  chmod 0600 $HOME/.ssh/deploykey
   echo "Done!! 🍻"
   if [ ! -z "$INPUT_PASSWORD" ] && [ "$INPUT_PASSWORD" != "" ]; then
     INPUT_KEY="" # Hack to save us from Error: can't set password and key at the same time
@@ -36,7 +36,7 @@ echo "🗃️ Backup type: $INPUT_TYPE"
 if [ "$INPUT_TYPE" = "db" ]; then
     echo "DB type: $INPUT_DB_TYPE"
     INPUT_DB_HOST="${INPUT_DB_HOST:-localhost}" # Looks like a common variable for all to have
-    
+
     if [[ -z $INPUT_DB_USER || -z $INPUT_DB_NAME ]]; then
       echo '😔 db_user and db_name is not set, Please specify.'
       exit 1

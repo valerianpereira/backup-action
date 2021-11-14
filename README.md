@@ -58,15 +58,15 @@ Done!! 🍻
 Warning: Permanently added '***' (ECDSA) to the list of known hosts.
 receiving incremental file list
 mysql-world.1109201613.sql.gz
-              0   0%    0.00kB/s    0:00:00  
-        623.78K  18%  605.53kB/s    0:00:04  
+              0   0%    0.00kB/s    0:00:00
+        623.78K  18%  605.53kB/s    0:00:04
           3.45M 100%    2.32MB/s    0:00:01 (xfr#1, to-chk=0/1)
 sent 51 bytes  received 3.46M bytes  628.39K bytes/sec
 total size is 3.45M  speedup is 1.00
 🤔 Whats the location of backups...
 /github/workspace/backups
 🔍 Show me backups... 😎
-total 3M     
+total 3M
 -rw-r--r--    1 ***     ***        3.3M Sep 11 16:14 mysql-world.1109201613.sql.gz
 ```
 
@@ -77,7 +77,9 @@ total 3M
 * [Backup & Push to Artifacts](./examples/backup-mysql-push-to-artifacts.yml)
 * [Backup & Push to Github](./examples/backup-dir-push-to-github.yml)
 
-### TIP: You can refer to [ci.yml](./.github/workflows/ci.yml) for more understanding.
+### Tips
+* You can refer to [ci.yml](./.github/workflows/ci.yml) for more understanding.
+* To backup all DB's of mysql pass `db_name: --all-databases`.
 
 ## Input variables
 
@@ -91,7 +93,7 @@ See [action.yml](./action.yml) for more detailed information.
 * sync - synchronous execution if multiple hosts, default is false
 * timeout - timeout for ssh to remote host, default is `30s`
 * command_timeout - timeout for ssh command, default is `10m`
-* key - content of ssh private key. ex raw content of ~/.ssh/id_rsa
+* key - content of ssh private key. ex raw content of ~/.ssh/id_rsa (private key)
 * key_path - path of ssh private key
 * fingerprint - fingerprint SHA256 of the host public key, default is to skip verification
 * script - execute commands
@@ -161,7 +163,7 @@ See the detail information about [SSH login without password](http://www.linuxpr
 - Use it at your own risk! 🙏
 
 ## Roadmap
-- [ ] Add Backup & Restore Commands Explanations to ReadME
+- [ ] Add Backup & Restore Commands Explanations to Readme
 - [ ] Features to generate Backup Reports and Store it in txt file.
 
 ## Contributions
